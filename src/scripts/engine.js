@@ -52,6 +52,28 @@ const cardData = [
     },
 ];
 
+async function getRamdomCardId() {
+    const randomIndex = Math.floor(Math.random() * cardData.length);
+    return cardData[randomIndex].id;
+}
+
+async function createCardImage(ramdomIdCard, fieldSide) {
+    const cardImage = document.createElement("img");
+    cardImage.setAttribute("height", "100px");
+    cardImage.setAttribute("src", ".src/assets/icons/cards-back.png");
+    cardImage.setAttribute("data-id", ramdomIdCard);
+    cardImage.classList.add("card");
+
+    if (fieldSide === playerSides.player1) {
+        cardImage.addEventListener("click", () => {
+            setCardField(cardImage.getAttribute("data-id"));
+        });
+    }
+    cardImage.addEventListener("mouseover", () => {
+        drawSelectCard(ramdomIdCard);
+    })
+}
+
 
 async function drawCards(cardNumbers, fieldSide) {
     for (let i = 0; i < cardNumbers; i++) {
