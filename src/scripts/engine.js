@@ -92,10 +92,10 @@ async function setCardField(cardId) {
 
     let computerCardId = await getRamdomCardId();
 
-    state.fieldCard.player.style.display = "block";
-    state.fieldCard.computer.style.display = "block";
-    state.fieldCard.player.src = cardData[cardId].img;
-    state.fieldCard.computer.src = cardData[computerCardId].img;
+    await showHiddenCardFieldsImages(true);
+    await hiddenCardDetais();
+    await drawCardsInField(cardId, computerCardId)
+
 
     let duelResults = await checkDuelResults(cardId, computerCardId);
 
@@ -148,6 +148,29 @@ async function drawSelectCard(index) {
     state.cardSprites.type.innerText = "Atribute : " + cardData[index].type;
 }
 
+async function drawCardsInField(cardId, computerCardId) {
+    state.fieldCard.player.src = cardData[cardId].img;
+    state.fieldCard.computer.src = cardData[computerCardId].img;
+}
+
+async function showHiddenCardFieldsImages(value) {
+    if (value === true) {
+        state.fieldCard.player.style.display = "block";
+        state.fieldCard.computer.style.display = "block";
+    }
+
+
+    if (value === false) {
+        state.fieldCard.player.style.display = "none";
+        state.fieldCard.computer.style.display = "none";
+    }
+}
+
+async function hiddenCardDetais() {
+    state.cardSprites.avatar.src = "";
+    state.cardSprites.name.innerText = "";
+    state.cardSprites.type.innerText = "";
+}
 
 async function drawCards(cardNumbers, fieldSide) {
     for (let i = 0; i < cardNumbers; i++) {
@@ -162,6 +185,8 @@ async function resetDuel() {
     state.action.button.style.display = "none";
     state.fieldCard.player.style.display = "none";
     state.fieldCard.computer.style.display = "none";
+    state.cardSprites.name.innerText = "Selecione";
+    state.cardSprites.type.innerText = "uma carta";
 
     init();
 }
@@ -175,8 +200,12 @@ async function playAudio(status) {
 }
 
 function init() {
+    showHiddenCardFieldsImages(false);
     drawCards(5, playerSides.player1);
     drawCards(5, playerSides.computer);
+    const bgm = document.getElementById("bgm");
+    bgm.volume = 0.1;
+    bgm.play();
 };
 
 init();
