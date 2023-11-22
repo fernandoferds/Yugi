@@ -57,11 +57,11 @@ async function getRamdomCardId() {
     return cardData[randomIndex].id;
 }
 
-async function createCardImage(ramdomIdCard, fieldSide) {
+async function createCardImage(idCard, fieldSide) {
     const cardImage = document.createElement("img");
     cardImage.setAttribute("height", "100px");
     cardImage.setAttribute("src", ".src/assets/icons/cards-back.png");
-    cardImage.setAttribute("data-id", ramdomIdCard);
+    cardImage.setAttribute("data-id", idCard);
     cardImage.classList.add("card");
 
     if (fieldSide === playerSides.player1) {
@@ -70,8 +70,10 @@ async function createCardImage(ramdomIdCard, fieldSide) {
         });
     }
     cardImage.addEventListener("mouseover", () => {
-        drawSelectCard(ramdomIdCard);
+        drawSelectCard(idCard);
     })
+
+    return cardImage;
 }
 
 
